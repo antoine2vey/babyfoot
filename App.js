@@ -4,7 +4,7 @@ import { StackNavigator } from 'react-navigation';
 import { View, Text, AppState } from 'react-native';
 
 import Banner from './assets/bottom-banner.jpg';
-import Login from './src/Login';
+import Login from './src/containers/Login';
 
 import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
@@ -28,10 +28,12 @@ const store = createStore(
 class App extends React.Component {
   render() {
     return (
-      <Iphone>
-        <Login />
-        <BannerBottom source={Banner} />
-      </Iphone>
+      <Provider store={store}>
+        <Iphone>
+          <Login />
+          <BannerBottom source={Banner} />
+        </Iphone>
+      </Provider>
     );
   }
 }

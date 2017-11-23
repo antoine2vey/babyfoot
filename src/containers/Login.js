@@ -3,11 +3,13 @@ import styled from 'styled-components/native'
 import { TextField } from 'react-native-material-textfield'
 import { Text, Image, TouchableOpacity, Alert } from 'react-native'
 import axios from 'axios'
+import { connect } from 'react-redux'
 
-import Stella from '../assets/stella-logo.png'
-import LoginButton from './components/LoginButton'
+import Stella from '../../assets/stella-logo.png'
+import LoginButton from '../components/LoginButton'
+import { login } from '../actions'
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   state = {
     username: '',
     password: ''
@@ -17,21 +19,18 @@ export default class Login extends React.Component {
     fb: '#507CC0'
   }
 
-  _login = () => { 
+  _login = () => {
+    const { username, password } = this.state
 
-
-    const username = this.state.username , password = this.state.password
-
-    Alert.alert(username)
-    
-    axios.post('https://babyfootapi-mmxfclutov.now.sh/api/user/login', {username, password})
-    .then(response => {
-
-      const token = response.data.token 
-      Alert.alert(token)
-    })
-    .catch(error =>{
-    })
+    this.props.login(username, password)
+      .then((res) => {
+        // Décoder le token ici et envoyer via route param
+        console.log(res.token)
+        Alert.alert('Connecté')
+      })
+      .catch((err) => {
+        Alert.alert(res.errors[0])
+      })
   }
 
   _facebookLogin = () => {
@@ -78,6 +77,13 @@ export default class Login extends React.Component {
     )
   }
 }
+
+const mapStateToProps = (state) => ({
+  isLoggingIn: state.user.isLoggingIn,
+  token: state.user.token
+})
+
+export default connect(mapStateToProps, { login })(Login)
 
 const LoginView = styled.View`
   flex: 1;

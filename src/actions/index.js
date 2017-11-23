@@ -23,8 +23,15 @@ export const loginFailure = (errors) => ({
 export const login = (username, password) => (dispatch) => {
   dispatch(loginStart())
 
-  axios.post(CONSTANTS.API_URL)
-    .then((res) => {
-
-    })
+  return new Promise((resolve, reject) => {
+    axios.post(`${CONSTANTS.API_URL}/user/login`, { username, password })
+      .then((res) => {
+        dispatch(loginSuccess(res.data.token))
+        resolve({ token: res.data.token })
+      })
+      .catch((err) => {
+        dispatch(loginFailure([err.message]))
+        reject({ errors: [err.message] })
+      })
+  })
 }
