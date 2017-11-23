@@ -4,7 +4,7 @@ import {
   LOGGING_FAILURE,
   LOGGING_START,
   LOGGING_SUCCESS
-} from '../actionTypes';
+} from '../actionTypes'
 
 export const loginSuccess = (token) => ({
   type: LOGGING_SUCCESS,
@@ -26,12 +26,13 @@ export const login = (username, password) => (dispatch) => {
   return new Promise((resolve, reject) => {
     axios.post(`${CONSTANTS.API_URL}/user/login`, { username, password })
       .then((res) => {
+        console.log('PogChamp')
         dispatch(loginSuccess(res.data.token))
         resolve({ token: res.data.token })
       })
       .catch((err) => {
-        dispatch(loginFailure([err.message]))
-        reject({ errors: [err.message] })
+        dispatch(loginFailure(err.response.data.errors))
+        reject({ errors: err.response.data.errors })
       })
   })
 }
