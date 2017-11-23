@@ -1,1 +1,1 @@
-export const API_URL = 'URL API ICI!'
+export const API_URL = 'https://babyfootapi-mmxfclutov.now.sh/api/'
