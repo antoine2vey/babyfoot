@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components/native';
 import { StackNavigator } from 'react-navigation';
 import { View, Text, AppState } from 'react-native';
-import { isEmpty } from 'lodash'
 
 import Login from './src/containers/Login';
 import Home from './src/containers/Home'
