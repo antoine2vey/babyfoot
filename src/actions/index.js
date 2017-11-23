@@ -26,7 +26,6 @@ export const login = (username, password) => (dispatch) => {
   return new Promise((resolve, reject) => {
     axios.post(`${CONSTANTS.API_URL}/user/login`, { username, password })
       .then((res) => {
-        console.log('PogChamp')
         dispatch(loginSuccess(res.data.token))
         resolve({ token: res.data.token })
       })
