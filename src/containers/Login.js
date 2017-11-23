@@ -1,12 +1,13 @@
 import React from 'react'
 import styled from 'styled-components/native'
 import { TextField } from 'react-native-material-textfield'
-import { Text, Image, TouchableOpacity, Alert } from 'react-native'
+import { Text, Image, TouchableOpacity, Alert, View } from 'react-native'
 import axios from 'axios'
 import { connect } from 'react-redux'
-//import * as jwt from 'jsonwebtoken'
+import jwt_decode from 'jwt-decode'
 
 import Stella from '../../assets/stella-logo.png'
+import Banner from '../../assets/bottom-banner.jpg'
 import LoginButton from '../components/LoginButton'
 import { login } from '../actions'
 
@@ -25,13 +26,9 @@ class Login extends React.Component {
 
     this.props.login(username, password)
       .then((res) => {
-
-        //const token = jwt.decode(res.token) 
-
-        //console.log(token)
-
-        // Décoder le token ici et envoyer via route param
-        console.log(res.token)
+      
+          const token = jwt_decode(res.token)
+       
         Alert.alert('Connecté')
       })
       .catch(({errors}) => {
@@ -46,41 +43,44 @@ class Login extends React.Component {
 
   render() {
     return (
-      <LoginView>
-        <StellaImage source={Stella} resizeMode="contain" />
+      <View style={{flex : 1, backgroundColor: 'white'}}>
+        <LoginView>
+          <StellaImage source={Stella} resizeMode="contain" />
 
-        <Form>
-          <TextField
-            label="Email"
-            value={this.state.username}
-            tintColor={Login.colors.red}
-            onChangeText={username => this.setState({ username })}
-          />
-          <TextField
-            label="Mot de passe"
-            value={this.state.password}
-            tintColor={Login.colors.red}
-            secureTextEntry
-            onChangeText={password => this.setState({ password })}
-          />
+          <Form>
+            <TextField
+              label="Email"
+              value={this.state.username}
+              tintColor={Login.colors.red}
+              onChangeText={username => this.setState({ username })}
+            />
+            <TextField
+              label="Mot de passe"
+              value={this.state.password}
+              tintColor={Login.colors.red}
+              secureTextEntry
+              onChangeText={password => this.setState({ password })}
+            />
+            <LoginButton
+              press={() => this._login}
+              color={Login.colors.red}
+              full
+              text="Connexion"
+              shadow
+            />
+          </Form>
+          <Text>ou</Text>
           <LoginButton
-            press={() => this._login}
-            color={Login.colors.red}
+            press={() => this._facebookLogin}
+            color={Login.colors.fb}
             full
-            text="Connexion"
-            shadow
+            rounded
+            icon="logo-facebook"
+            text="Se connecter avec Facebook"
           />
-        </Form>
-        <Text>ou</Text>
-        <LoginButton
-          press={() => this._facebookLogin}
-          color={Login.colors.fb}
-          full
-          rounded
-          icon="logo-facebook"
-          text="Se connecter avec Facebook"
-        />
-      </LoginView>
+        </LoginView>
+        <BannerBottom source={Banner} />
+      </View>
     )
   }
 }
@@ -105,3 +105,7 @@ const Form = styled.View`
 const StellaImage = styled.Image`
   width: 180px;
 `
+
+const BannerBottom = styled.Image`
+  width: 100%;
+`;
