@@ -30,8 +30,8 @@ export const login = (username, password) => (dispatch) => {
         resolve({ token: res.data.token })
       })
       .catch((err) => {
-        dispatch(loginFailure([err.message]))
-        reject({ errors: [err.message] })
+        dispatch(loginFailure(err.response.data.errors))
+        reject({ errors: err.response.data.errors })
       })
   })
 }
