@@ -5,7 +5,13 @@ const UserSchema = new mongoose.Schema({
   password: String,
   resetToken: String,
   resetTokenExpire: Date,
-  tokens: []
+  tokens: [],
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  ]
 })
 
 module.exports = {
