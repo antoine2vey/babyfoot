@@ -4,6 +4,7 @@ import { TextField } from 'react-native-material-textfield'
 import { Text, Image, TouchableOpacity, Alert } from 'react-native'
 import axios from 'axios'
 import { connect } from 'react-redux'
+//import * as jwt from 'jsonwebtoken'
 
 import Stella from '../../assets/stella-logo.png'
 import LoginButton from '../components/LoginButton'
@@ -24,12 +25,18 @@ class Login extends React.Component {
 
     this.props.login(username, password)
       .then((res) => {
+
+        //const token = jwt.decode(res.token) 
+
+        //console.log(token)
+
         // Décoder le token ici et envoyer via route param
         console.log(res.token)
         Alert.alert('Connecté')
       })
-      .catch((err) => {
-        Alert.alert(res.errors[0])
+      .catch(({errors}) => {
+        const displayedErrors = errors.reduce((prev, next, i) => prev += `${next.msg}${(i === errors.length - 1) ? '' : '\n'}`, '')
+        Alert.alert('Erreur', displayedErrors)
       })
   }
 
