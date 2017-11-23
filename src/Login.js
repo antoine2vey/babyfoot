@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { TextField } from 'react-native-material-textfield'
 import { Text, Image, TouchableOpacity, Alert } from 'react-native'
+import axios from 'axios'
 
 import Stella from '../assets/stella-logo.png'
 import LoginButton from './components/LoginButton'
@@ -17,7 +18,20 @@ export default class Login extends React.Component {
   }
 
   _login = () => { 
-    Alert.alert(`${this.state.username}`, `${this.state.password}`)
+
+
+    const username = this.state.username , password = this.state.password
+
+    Alert.alert(username)
+    
+    axios.post('https://babyfootapi-mmxfclutov.now.sh/api/user/login', {username, password})
+    .then(response => {
+
+      const token = response.data.token 
+      Alert.alert(token)
+    })
+    .catch(error =>{
+    })
   }
 
   _facebookLogin = () => {
