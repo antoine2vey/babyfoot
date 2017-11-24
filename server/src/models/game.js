@@ -1,17 +1,34 @@
 const mongoose = require('mongoose')
+const { ObjectId } = mongoose.Schema.Types
 
 const GameSchema = new mongoose.Schema({
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User'
-  },
-  isStarted: {
-    type: Boolean,
-    default: false
-  },
-  isDone: {
-    type: Boolean,
-    default: false
+  teams: [
+    {
+      type: ObjectId,
+      ref: 'Team'
+    }
+  ],
+  matches: [
+    {
+      type: ObjectId,
+      ref: 'Match'
+    }
+  ],
+  medias: [
+    {
+      type: ObjectId,
+      ref: 'Media'
+    }
+  ],
+  rules: [
+    {
+      type: ObjectId,
+      ref: 'Rule'
+    }
+  ],
+  date: {
+    type: Date,
+    default: new Date()
   }
 })
 

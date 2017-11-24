@@ -1,10 +1,6 @@
 const mongoose = require('mongoose')
 
 const RuleSchema = new mongoose.Schema({
-  associatedGame: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Game'
-  },
   penaltyOutOfBounds: Boolean,
   maxPoints: Number,
   maxPissette: Number,
