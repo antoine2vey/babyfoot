@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 import { TextField } from 'react-native-material-textfield'
 import { Text, Image, TouchableOpacity, Alert, View } from 'react-native'
+import { NavigationActions } from 'react-navigation'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import jwt_decode from 'jwt-decode'
@@ -13,8 +14,8 @@ import { login } from '../actions'
 
 class Login extends React.Component {
   state = {
-    username: '',
-    password: ''
+    username: 'Antoine',
+    password: '101096'
   }
   static colors = {
     red: '#DA373A',
@@ -24,15 +25,23 @@ class Login extends React.Component {
   _login = () => {
     const { username, password } = this.state
 
-    this.props.login(username, password)
-      .then((res) => {
-      
-          const token = jwt_decode(res.token)
-       
-        Alert.alert('Connecté')
+    this.props
+      .login(username, password)
+      .then(res => {
+        const token = jwt_decode(res.token)
+        const navigateAction = NavigationActions.navigate({
+          routeName: 'home',
+          params: { user: token }
+        })
+
+        this.props.navigation.dispatch(navigateAction)
       })
-      .catch(({errors}) => {
-        const displayedErrors = errors.reduce((prev, next, i) => prev += `${next.msg}${(i === errors.length - 1) ? '' : '\n'}`, '')
+      .catch(({ errors }) => {
+        const displayedErrors = errors.reduce(
+          (prev, next, i) =>
+            (prev += `${next.msg}${i === errors.length - 1 ? '' : '\n'}`),
+          ''
+        )
         Alert.alert('Erreur', displayedErrors)
       })
   }
@@ -43,7 +52,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View style={{flex : 1, backgroundColor: 'white'}}>
+      <View style={{ flex: 1, backgroundColor: 'white' }}>
         <LoginView>
           <StellaImage source={Stella} resizeMode="contain" />
 
@@ -85,12 +94,12 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   isLoggingIn: state.user.isLoggingIn,
   token: state.user.token
 })
 
-export default connect(mapStateToProps, { login })(Login)
+export default connect(mapStateToProps, { login })(Login)
 
 const LoginView = styled.View`
   flex: 1;
@@ -108,4 +117,4 @@ const StellaImage = styled.Image`
 
 const BannerBottom = styled.Image`
   width: 100%;
-`;
+`
