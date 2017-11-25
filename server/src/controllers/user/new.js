@@ -8,8 +8,8 @@ module.exports = async (req, res) => {
     return res.status(422).json({ errors: errors.array() })
   }
 
-  const { username, password } = req.body
-  const userExists = await User.findOne({ username })
+  const { email, password } = req.body
+  const userExists = await User.findOne({ email })
 
   if (userExists) {
     return res.status(409).send({
@@ -20,10 +20,10 @@ module.exports = async (req, res) => {
   const salt = await bcrypt.genSalt()
   const hash = await bcrypt.hash(password, salt)
 
-  const newUser = new User({ username, password: hash })
+  const newUser = new User({ email, password: hash })
   newUser.save(() => {
     return res.status(200).send({
-      message: `Utilisateur ${username} crée!`
+      message: `Utilisateur ${email} created!`
     })
   })
 }

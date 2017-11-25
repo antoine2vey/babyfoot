@@ -1,56 +1,98 @@
-const express = require('express');
-const router = express.Router();
-const { jwt } = require('../../config/jwt');
-const newUser = require('./new');
-const loginUser = require('./login');
-const deleteUser = require('./delete');
-const updateUser = require('./update');
-const listUsers = require('./list');
+const express = require('express')
+const router = express.Router()
+const { jwt, decode } = require('../../config/jwt')
+const newUser = require('./new')
+const loginUser = require('./login')
+const deleteUser = require('./delete')
+const updateUser = require('./update')
+const listUsers = require('./list')
 const {
   newUserRules,
   loginUserRules,
   deleteUserRules,
   updateUserRules
-} = require('./rules');
+} = require('./rules')
+
+const { User } = require('../../models/user')
+
+router.get('/', listUsers)
+router.post('/', newUserRules, newUser)
+router.post('/login', loginUserRules, loginUser)
+router.delete('/', deleteUserRules, jwt, deleteUser)
+router.put('/', updateUserRules, jwt, updateUser)
 
 /**
- * List all users
- * @param  {} '/'
- * @param  {} listUsers
+ * Asks for friendship
  */
-router.get('/', listUsers);
+router.post('/friendship/:friend_id', jwt, async (req, res) => {
+  const { friend_id } = req.params
+  const { id } = decode(req.get('Authorization'))
+
+  const user = await User.findByIdAndUpdate(friend_id, {
+    $push: { pending_invites: id }
+  })
+
+  res.send({
+    message: `Frienship request was sent to ${user.email}`
+  })
+})
 
 /**
- * Create a new user
- * @param  {} '/new'
- * @param  {} newUserRules
- * @param  {} asyncFn
+ * Update friendship (give true to accept, false to refuse)
  */
-router.post('/', newUserRules, newUser);
+router.put('/friendship/:friend_id', jwt, async (req, res) => {
+  const { friend_id } = req.params
+  const { accepts } = req.body
+  const { id } = decode(req.get('Authorization'))
+
+  if (accepts == true) {
+    await User.findByIdAndUpdate(id, {
+      $pull: { pending_invites: friend_id },
+      $push: { friends: friend_id }
+    })
+    const acceptedUser = await User.findByIdAndUpdate(friend_id, {
+      $push: { friends: id }
+    })
+
+    return res.status(200).send({
+      message: `You accepted ${acceptedUser.email} in friend`
+    })
+  }
+
+  await User.findByIdAndUpdate(id, {
+    $pull: { pending_invites: friend_id }
+  })
+
+  return res.status(200).send({
+    message: 'You refused friendship!'
+  })
+})
 
 /**
- * Handle login for app
- * @param  {} '/login'
- * @param  {} asyncFn
+ * Deletes a friendship
  */
-router.post('/login', loginUserRules, loginUser);
+router.delete('/friendship/:friend_id', jwt, async (req, res) => {
+  const { friend_id } = req.params
+  const { id } = decode(req.get('Authorization'))
+
+  await User.findByIdAndUpdate(id, { $pull: { friends: friend_id } })
+  await User.findByIdAndUpdate(friend_id, { $pull: { friends: id } })
+
+  res.status(200).send({
+    message: 'Deleted friendship :\'('
+  })
+})
 
 /**
- * Handle user delete
- * @param  {} '/'
- * @param  {} deleteUserRules
- * @param  {} jwt
- * @param  {} deleteUser
+ * Get a single user
  */
-router.delete('/', deleteUserRules, jwt, deleteUser);
+router.get('/:id', jwt, async (req, res) => {
+  const { id } = req.params
+  const user = await User.findById(id).select(
+    'first_name last_name phone email'
+  )
 
-/**
- * Handle user update for password at this time
- * @param  {} '/'
- * @param  {} updateUserRules
- * @param  {} jwt
- * @param  {} updateUser
- */
-router.put('/', updateUserRules, jwt, updateUser);
+  return res.status(200).send({ user })
+})
 
-module.exports = router;
+module.exports = router

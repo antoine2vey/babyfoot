@@ -4,8 +4,9 @@ const { ObjectId } = mongoose.Schema.Types
 const UserSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
-  mail: String,
+  email: String,
   telephone: String,
+  password: String,
   auth_type: String,
   resetToken: String,
   resetTokenExpire: Date,
