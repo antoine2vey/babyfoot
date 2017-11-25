@@ -1,7 +1,7 @@
 const { body } = require('express-validator/check')
 
 const newUserRules = [
-  body('username', 'Tu dois fournir un nom d\'utilisateur')
+  body('email', 'Tu dois fournir un email')
     .exists()
     .not()
     .isEmpty(),
@@ -15,7 +15,7 @@ const newUserRules = [
 ]
 
 const loginUserRules = [
-  body('username', 'Username must not be empty')
+  body('email', 'Username must not be empty')
     .exists()
     .not()
     .isEmpty(),
