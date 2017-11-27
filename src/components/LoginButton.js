@@ -15,7 +15,7 @@ const LoginButton = props => (
 
 LoginButton.propTypes = {
   press: PropTypes.func.isRequired,
-  color: PropTypes.string.isRequired,
+  bgColor: PropTypes.string.isRequired,
   full: PropTypes.bool,
   icon: PropTypes.string,
   text: PropTypes.string.isRequired
@@ -25,7 +25,7 @@ export default LoginButton
 
 const DefaultButton = styled.TouchableOpacity`
   margin: ${({ full }) => (full ? '20px 0' : '20px 10px')};
-  background-color: ${({ color }) => color};
+  background-color: ${({ bgColor }) => bgColor};
   justify-content: center;
   align-items: center;
   padding: 10px 20px;
@@ -37,7 +37,6 @@ const DefaultButton = styled.TouchableOpacity`
 `
 
 const InnerButton = styled.View`
-  color: white;
   flex-direction: row;
   justify-content: space-around;
   width: 100%;
