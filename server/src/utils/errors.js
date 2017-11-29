@@ -1,4 +1,4 @@
-module.exports = (str) => [
+module.exports = str => [
   {
     msg: str
   }

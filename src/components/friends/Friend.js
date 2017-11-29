@@ -1,17 +1,23 @@
-import React from 'react';
-import { ListItem } from 'react-native-elements';
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons';
+import React from 'react'
+import { ListItem } from 'react-native-elements'
+import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 
 const Friend = ({
   friend,
   showChoices,
   updateFriendship,
   deleteFriendship,
-  token
+  addFriend,
+  token,
+  canAdd
 }) => (
   <ListItem
     title={friend.email}
-    subtitle={showChoices ? 'asked you in friend' : 'is friend of yours!'}
+    subtitle={
+      showChoices
+        ? 'asked you in friend'
+        : canAdd ? null : 'is friend of yours!'
+    }
     badge={
       showChoices && {
         element: (
@@ -34,6 +40,14 @@ const Friend = ({
           style={{ marginTop: 6 }}
           onPress={() => updateFriendship('DENY', friend._id, token)}
         />
+      ) : canAdd ? (
+        <MaterialIcons
+          name={'add-circle'}
+          size={28}
+          color="green"
+          style={{ marginTop: 6 }}
+          onPress={() => addFriend(friend._id, token)}
+        />
       ) : (
         <MaterialIcons
           name={'delete'}
@@ -45,6 +59,6 @@ const Friend = ({
       )
     }
   />
-);
+)
 
-export default Friend;
+export default Friend

@@ -1,17 +1,17 @@
-import React from 'react';
-import styled from 'styled-components/native';
-import { TextField } from 'react-native-material-textfield';
-import { NavigationActions } from 'react-navigation';
-import LoginButton from './LoginButton';
-import { Text, Image, TouchableOpacity, Alert, View } from 'react-native';
-import Stella from '../../assets/stella-logo.png';
-import jwt_decode from 'jwt-decode';
+import React from 'react'
+import styled from 'styled-components/native'
+import { TextField } from 'react-native-material-textfield'
+import { NavigationActions } from 'react-navigation'
+import LoginButton from './LoginButton'
+import { Text, Image, TouchableOpacity, Alert, View } from 'react-native'
+import Stella from '../../assets/stella-logo.png'
+import jwt_decode from 'jwt-decode'
 
 export default class LoginForm extends React.Component {
   state = {
     email: 'getfriends',
     password: 'admin'
-  };
+  }
 
   /**
    * Default colors
@@ -19,21 +19,21 @@ export default class LoginForm extends React.Component {
   static colors = {
     red: '#DA373A',
     fb: '#507CC0'
-  };
+  }
 
   _login = () => {
-    const { email, password } = this.state;
+    const { email, password } = this.state
 
     this.props
       .login(email, password)
       .then(res => {
-        const token = jwt_decode(res.token);
+        const token = jwt_decode(res.token)
         const navigateAction = NavigationActions.navigate({
           routeName: 'app',
           params: { user: token }
-        });
+        })
 
-        this.props.navigation.dispatch(navigateAction);
+        this.props.navigation.dispatch(navigateAction)
       })
       .catch(err => {
         console.log('Error at login', err)
@@ -41,14 +41,14 @@ export default class LoginForm extends React.Component {
           (prev, next, i) =>
             (prev += `${next.msg}${i === err.errors.length - 1 ? '' : '\n'}`),
           ''
-        );
-        Alert.alert('Erreur', displayedErrors);
-      });
-  };
+        )
+        Alert.alert('Erreur', displayedErrors)
+      })
+  }
 
   _facebookLogin = async () => {
     try {
-      console.log('Starting Facebook call');
+      console.log('Starting Facebook call')
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
         '138379676931081',
         {
@@ -60,22 +60,22 @@ export default class LoginForm extends React.Component {
           ],
           behavior: 'web'
         }
-      );
-      console.log('finished');
+      )
+      console.log('finished')
 
       if (type === 'success') {
         const response = await axios.get(
           `https://graph.facebook.com/me?access_token=${
             token
           }&fields=email,first_name,last_name,location,friends,picture`
-        );
+        )
 
-        console.log(response.data);
+        console.log(response.data)
       }
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
-  };
+  }
 
   render() {
     return (
@@ -113,7 +113,7 @@ export default class LoginForm extends React.Component {
           text="Se connecter avec Facebook"
         />
       </LoginView>
-    );
+    )
   }
 }
 
@@ -121,12 +121,12 @@ const LoginView = styled.View`
   flex: 1;
   align-items: center;
   padding: 40px;
-`;
+`
 
 const Form = styled.View`
   width: 100%;
-`;
+`
 
 const StellaImage = styled.Image`
   width: 180px;
-`;
+`
