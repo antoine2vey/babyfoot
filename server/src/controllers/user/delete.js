@@ -14,7 +14,7 @@ module.exports = async (req, res) => {
 
     if (!user) {
       return res.status(400).send({
-        message: 'Cet utilisateur n\'existe pas'
+        message: "Cet utilisateur n'existe pas"
       })
     }
 
@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     })
   } catch (e) {
     return res.status(400).send({
-      message: 'Cet utilisateur n\'existe pas'
+      message: "Cet utilisateur n'existe pas"
     })
   }
 }

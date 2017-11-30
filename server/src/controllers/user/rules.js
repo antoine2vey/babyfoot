@@ -2,6 +2,7 @@ const { body } = require('express-validator/check')
 
 const newUserRules = [
   body('email', 'Tu dois fournir un email')
+    .isEmail()
     .exists()
     .not()
     .isEmpty(),

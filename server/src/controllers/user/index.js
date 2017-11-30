@@ -42,10 +42,10 @@ router.post('/friendship/:friend_id', jwt, async (req, res) => {
  */
 router.put('/friendship/:friend_id', jwt, async (req, res) => {
   const { friend_id } = req.params
-  const { accepts } = req.body
+  const { status } = req.body
   const { id } = decode(req.get('Authorization'))
 
-  if (accepts == true) {
+  if (status == 'ACCEPT') {
     await User.findByIdAndUpdate(id, {
       $pull: { pending_invites: friend_id },
       $push: { friends: friend_id }
@@ -54,9 +54,7 @@ router.put('/friendship/:friend_id', jwt, async (req, res) => {
       $push: { friends: id }
     })
 
-    return res.status(200).send({
-      message: `You accepted ${acceptedUser.email} in friend`
-    })
+    return res.status(200).send({ user: acceptedUser })
   }
 
   await User.findByIdAndUpdate(id, {
@@ -76,11 +74,11 @@ router.delete('/friendship/:friend_id', jwt, async (req, res) => {
   const { id } = decode(req.get('Authorization'))
 
   await User.findByIdAndUpdate(id, { $pull: { friends: friend_id } })
-  await User.findByIdAndUpdate(friend_id, { $pull: { friends: id } })
-
-  res.status(200).send({
-    message: 'Deleted friendship :\'('
+  const user = await User.findByIdAndUpdate(friend_id, {
+    $pull: { friends: id }
   })
+
+  res.status(200).send({ id: user.id })
 })
 
 /**
@@ -88,9 +86,10 @@ router.delete('/friendship/:friend_id', jwt, async (req, res) => {
  */
 router.get('/:id', jwt, async (req, res) => {
   const { id } = req.params
-  const user = await User.findById(id).select(
-    'first_name last_name phone email'
-  )
+  const user = await User.findById(id)
+    .populate('friends', 'email')
+    .populate('pending_invites', 'email')
+    .select('first_name last_name phone email friends pending_invites')
 
   return res.status(200).send({ user })
 })
