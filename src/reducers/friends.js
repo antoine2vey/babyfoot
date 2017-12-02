@@ -46,9 +46,21 @@ const friends = (state = initialState, action) => {
       }
     }
     case UPDATE_FRIENDSHIP_SUCCESS: {
+      if (action.status === 'ACCEPT') {
+        // If we accept, add to friends
+        return {
+          ...state,
+          friends: [...state.friends, action.friend],
+          pending_invites: state.pending_invites.filter(
+            el => el._id !== action.friend._id
+          )
+        }
+      }
+
+      // If we refuse, add to users
       return {
         ...state,
-        friends: [...state.friends, action.friend],
+        users: [...state.users, action.friend],
         pending_invites: state.pending_invites.filter(
           el => el._id !== action.friend._id
         )
@@ -63,7 +75,8 @@ const friends = (state = initialState, action) => {
     case DELETE_FRIENDSHIP: {
       return {
         ...state,
-        friends: state.friends.filter(el => el._id !== action.userId)
+        friends: state.friends.filter(el => el._id !== action.user._id),
+        users: [...state.users, action.user]
       }
     }
     case FRIEND_USER: {

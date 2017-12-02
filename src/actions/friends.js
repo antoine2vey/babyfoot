@@ -1,7 +1,6 @@
 import * as CONSTANTS from '../constants'
 import axios from 'axios'
 import * as ACTIONS from '../actionTypes'
-import jwt_decode from 'jwt-decode'
 
 export const friendsFetchSuccess = ({ friends, pending_invites }) => ({
   type: ACTIONS.FETCH_FRIENDS_SUCCESS,
@@ -18,14 +17,15 @@ export const friendsFetchFailure = errors => ({
   errors
 })
 
-export const updateFriendshipSuccess = friend => ({
+export const updateFriendshipSuccess = (friend, status) => ({
   type: ACTIONS.UPDATE_FRIENDSHIP_SUCCESS,
-  friend
+  friend,
+  status
 })
 
-export const deleteFriendshipSuccess = userId => ({
+export const deleteFriendshipSuccess = user => ({
   type: ACTIONS.DELETE_FRIENDSHIP,
-  userId
+  user
 })
 
 export const fetchUsersSuccess = users => ({
@@ -72,7 +72,7 @@ export const updateFriendship = (status, friendId, token) => dispatch => {
       }
     )
     .then(res => {
-      dispatch(updateFriendshipSuccess(res.data.user))
+      dispatch(updateFriendshipSuccess(res.data.user, status))
     })
     .catch(err => {
       console.error('retarded update', err)
@@ -86,8 +86,9 @@ export const deleteFriendship = (userId, token) => dispatch => {
         Authorization: `Bearer ${token}`
       }
     })
-    .then(res => {
-      dispatch(deleteFriendshipSuccess(res.data.id))
+    .then(({ data }) => {
+      console.log(data)
+      dispatch(deleteFriendshipSuccess(data.user))
     })
     .catch(err => {
       console.log('retarded delete', err)
@@ -102,11 +103,7 @@ export const fetchUsers = token => dispatch => {
       }
     })
     .then(({ data }) => {
-      // Exclude current user from users array
-      const { id } = jwt_decode(token)
-      const users = data.users.filter(u => u._id !== id)
-
-      dispatch(fetchUsersSuccess(users))
+      dispatch(fetchUsersSuccess(data.users))
     })
     .catch(err => {
       console.log('@@REDUX > FETCH USERS ERROR > ', err)

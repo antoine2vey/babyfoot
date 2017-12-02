@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, Text } from 'react-native'
 import { List, ListItem } from 'react-native-elements'
 
 import Friend from './Friend'
@@ -14,7 +14,8 @@ export default class FriendList extends React.Component {
   render() {
     return (
       <View>
-        <List containerStyle={{ marginTop: 0 }}>
+        <List style={{ marginTop: 0 }}>
+          <Text>Tout les utilisateurs</Text>
           {this.props.users.map(user => (
             <Friend
               key={user._id}
@@ -26,7 +27,8 @@ export default class FriendList extends React.Component {
           ))}
         </List>
 
-        <List>
+        <List style={{ marginTop: 0 }}>
+          <Text>Mes amis</Text>
           {this.props.friends.map(friend => (
             <Friend
               key={friend._id}
@@ -37,7 +39,8 @@ export default class FriendList extends React.Component {
           ))}
         </List>
 
-        <List>
+        <List style={{ marginTop: 0 }}>
+          <Text>Invitations</Text>
           {this.props.pending_invites.map(invite => (
             <Friend
               key={invite._id}

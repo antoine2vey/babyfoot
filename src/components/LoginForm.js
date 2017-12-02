@@ -9,7 +9,7 @@ import jwt_decode from 'jwt-decode'
 
 export default class LoginForm extends React.Component {
   state = {
-    email: 'getfriends',
+    email: 'pierre@gmail.com',
     password: 'admin'
   }
 

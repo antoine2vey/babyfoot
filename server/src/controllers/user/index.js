@@ -15,7 +15,7 @@ const {
 
 const { User } = require('../../models/user')
 
-router.get('/', listUsers)
+router.get('/', jwt, listUsers)
 router.post('/', newUserRules, newUser)
 router.post('/login', loginUserRules, loginUser)
 router.delete('/', deleteUserRules, jwt, deleteUser)
@@ -45,7 +45,7 @@ router.put('/friendship/:friend_id', jwt, async (req, res) => {
   const { status } = req.body
   const { id } = decode(req.get('Authorization'))
 
-  if (status == 'ACCEPT') {
+  if (status === 'ACCEPT') {
     await User.findByIdAndUpdate(id, {
       $pull: { pending_invites: friend_id },
       $push: { friends: friend_id }
@@ -57,13 +57,12 @@ router.put('/friendship/:friend_id', jwt, async (req, res) => {
     return res.status(200).send({ user: acceptedUser })
   }
 
+  const user = await User.findById(friend_id)
   await User.findByIdAndUpdate(id, {
     $pull: { pending_invites: friend_id }
   })
 
-  return res.status(200).send({
-    message: 'You refused friendship!'
-  })
+  return res.status(200).send({ user })
 })
 
 /**
@@ -78,7 +77,7 @@ router.delete('/friendship/:friend_id', jwt, async (req, res) => {
     $pull: { friends: id }
   })
 
-  res.status(200).send({ id: user.id })
+  res.status(200).send({ user })
 })
 
 /**

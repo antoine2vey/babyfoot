@@ -14,16 +14,14 @@ module.exports = async (req, res) => {
 
     if (!user) {
       return res.status(400).send({
-        message: "Cet utilisateur n'existe pas"
+        message: 'Cet utilisateur n\'existe pas'
       })
     }
 
-    return res.status(200).send({
-      message: `Utilisateur ${user.username} supprimé!`
-    })
+    return res.status(200).send({ user })
   } catch (e) {
     return res.status(400).send({
-      message: "Cet utilisateur n'existe pas"
+      message: 'Cet utilisateur n\'existe pas'
     })
   }
 }
