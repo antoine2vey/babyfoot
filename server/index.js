@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const dotenv = require('dotenv')
 dotenv.config()
+const morgan = require('morgan')
 const { apiRouter } = require('./src/controllers/index')
 const { database } = require('./src/config/database')
 const port = process.env.PORT || 3000
@@ -15,6 +16,7 @@ database()
 /**
  * App config
  */
+app.use(morgan('tiny'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
