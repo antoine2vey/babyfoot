@@ -2,4 +2,5 @@ node_modules/
 .expo/
 npm-debug.*
 .env
+.env.production
 .DS_Store
