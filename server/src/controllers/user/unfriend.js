@@ -2,19 +2,16 @@ const { User } = require('../../models/user')
 const { decode } = require('../../config/jwt')
 
 /**
- * Asks for friendship
- * @param {*} req
- * @param {*} res
+ * Deletes a friendship
  */
 module.exports = async (req, res) => {
   const { friend_id } = req.params
   const { id } = decode(req.get('Authorization'))
 
+  await User.findByIdAndUpdate(id, { $pull: { friends: friend_id } })
   const user = await User.findByIdAndUpdate(friend_id, {
-    $push: { pending_invites: id }
+    $pull: { friends: id }
   })
 
-  res.send({
-    message: `Frienship request was sent to ${user.email}`
-  })
+  res.status(200).send({ user })
 }
