@@ -16,7 +16,7 @@ database()
 /**
  * App config
  */
-app.use(morgan('tiny'))
+app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 

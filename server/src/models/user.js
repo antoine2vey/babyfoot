@@ -8,8 +8,8 @@ const UserSchema = new mongoose.Schema({
   telephone: String,
   password: String,
   auth_type: String,
-  resetToken: String,
-  resetTokenExpire: Date,
+  reset_token: String,
+  reset_token_expire: Date,
   tokens: [],
   pending_invites: [
     {

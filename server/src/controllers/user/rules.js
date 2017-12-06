@@ -31,8 +31,7 @@ const deleteUserRules = [
     .exists()
     .not()
     .isEmpty()
-    .isLength({ min: 24, max: 24 })
-    .isHexadecimal()
+    .isMongoId()
 ]
 
 const updateUserRules = [
@@ -40,8 +39,7 @@ const updateUserRules = [
     .exists()
     .not()
     .isEmpty()
-    .isLength({ min: 24, max: 24 })
-    .isHexadecimal(),
+    .isMongoId(),
   body('confirmPassword', 'Current password must not be empty')
     .exists()
     .not()

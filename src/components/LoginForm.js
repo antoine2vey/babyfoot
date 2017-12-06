@@ -6,6 +6,7 @@ import LoginButton from './LoginButton'
 import { Text, Image, TouchableOpacity, Alert, View } from 'react-native'
 import Stella from '../../assets/stella-logo.png'
 import jwt_decode from 'jwt-decode'
+import axios from 'axios'
 
 export default class LoginForm extends React.Component {
   state = {
@@ -50,18 +51,8 @@ export default class LoginForm extends React.Component {
     try {
       console.log('Starting Facebook call')
       const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-        '138379676931081',
-        {
-          permissions: [
-            'email',
-            'user_location',
-            'user_friends',
-            'public_profile'
-          ],
-          behavior: 'web'
-        }
+        '138379676931081'
       )
-      console.log('finished')
 
       if (type === 'success') {
         const response = await axios.get(

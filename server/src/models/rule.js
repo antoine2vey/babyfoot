@@ -1,13 +1,17 @@
 const mongoose = require('mongoose')
 
 const RuleSchema = new mongoose.Schema({
-  penaltyOutOfBounds: Boolean,
-  maxPoints: Number,
-  maxPissette: Number,
-  maxReprise: Boolean,
-  canGamelle: Boolean,
-  canCasquette: Boolean,
-  canRateau: Boolean
+  title: {
+    type: String,
+    required: true
+  },
+  penalty_out_of_bounds: Boolean,
+  max_points: Number,
+  max_pissette: Number,
+  max_reprise: Boolean,
+  can_gamelle: Boolean,
+  can_casquette: Boolean,
+  can_rateau: Boolean
 })
 
 module.exports = {

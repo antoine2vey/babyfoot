@@ -4,8 +4,11 @@ const { ObjectId } = mongoose.Schema.Types
 const GameSchema = new mongoose.Schema({
   teams: [
     {
-      type: ObjectId,
-      ref: 'Team'
+      type: String,
+      data: {
+        type: ObjectId,
+        refPath: 'teams.type'
+      }
     }
   ],
   matches: [
@@ -26,10 +29,22 @@ const GameSchema = new mongoose.Schema({
       ref: 'Rule'
     }
   ],
-  date: {
+  created_at: {
     type: Date,
     default: new Date()
-  }
+  },
+  pending_invites: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ],
+  participants: [
+    {
+      type: ObjectId,
+      ref: 'User'
+    }
+  ]
 })
 
 module.exports = {
