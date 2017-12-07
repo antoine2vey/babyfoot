@@ -4,11 +4,8 @@ const { ObjectId } = mongoose.Schema.Types
 const GameSchema = new mongoose.Schema({
   teams: [
     {
-      type: String,
-      data: {
-        type: ObjectId,
-        refPath: 'teams.type'
-      }
+      type: ObjectId,
+      ref: 'Team'
     }
   ],
   matches: [
