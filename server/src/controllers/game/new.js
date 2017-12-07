@@ -14,13 +14,7 @@ module.exports = async (req, res) => {
   }
 
   const { teams, rules } = req.body
-  const { id } = req.user
-
-  const game = new Game({
-    teams,
-    rules,
-    participants: id
-  })
+  const game = new Game({ teams, rules })
 
   game.save(err => {
     if (err) {

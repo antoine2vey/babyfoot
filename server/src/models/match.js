@@ -14,8 +14,14 @@ const MatchSchema = new mongoose.Schema({
       ref: 'User'
     }
   ],
-  teamA_score: Number,
-  teamB_score: Number,
+  teamA_score: {
+    type: Number,
+    default: 0
+  },
+  teamB_score: {
+    type: Number,
+    default: 0
+  },
   place: {
     type: ObjectId,
     ref: 'Place'

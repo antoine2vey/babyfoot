@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
     })
   }
 
-  const params = getParamForFile('__BUCKET_NAME__', req.file)
+  const params = getParamForFile('stella-match', req.file)
   s3.upload(params, async (err, { Location }) => {
     if (err) {
       return res.status(400).send({

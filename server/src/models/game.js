@@ -30,12 +30,6 @@ const GameSchema = new mongoose.Schema({
       type: ObjectId,
       ref: 'User'
     }
-  ],
-  participants: [
-    {
-      type: ObjectId,
-      ref: 'User'
-    }
   ]
 })
 

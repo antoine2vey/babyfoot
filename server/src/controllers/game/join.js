@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
   }
 
   const game = await Game.findByIdAndUpdate(gameId, {
-    $push: { participants: id, teams: teamId }
+    $push: { teams: teamId }
   })
 
   res.send({
