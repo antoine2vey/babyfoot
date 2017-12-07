@@ -1,7 +1,25 @@
-const { body } = require('express-validator/check')
+const { body, param } = require('express-validator/check')
 
-const newGameRule = []
+const newGameRules = [
+  body('teams')
+    .exists()
+    .isMongoId(),
+  body('rules').exists()
+]
+
+const joinGameRules = [
+  param('gameId')
+    .exists()
+    .isMongoId(),
+  body('teamId')
+    .exists()
+    .isMongoId()
+]
+
+const addMediaRules = [param('gameId').exists()]
 
 module.exports = {
-  newGameRule
+  newGameRules,
+  joinGameRules,
+  addMediaRules
 }

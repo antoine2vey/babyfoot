@@ -14,12 +14,7 @@ const GameSchema = new mongoose.Schema({
       ref: 'Match'
     }
   ],
-  medias: [
-    {
-      type: ObjectId,
-      ref: 'Media'
-    }
-  ],
+  medias: [String],
   rules: [
     {
       type: ObjectId,
