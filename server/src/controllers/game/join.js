@@ -9,7 +9,6 @@ const { Game } = require('../../models/game')
 module.exports = async (req, res) => {
   const errors = validationResult(req)
   const { teamId } = req.body
-  const { id } = req.user
   const { gameId } = req.params
 
   if (!errors.isEmpty()) {
