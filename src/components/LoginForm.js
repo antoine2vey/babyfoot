@@ -10,7 +10,7 @@ import axios from 'axios'
 
 export default class LoginForm extends React.Component {
   state = {
-    email: 'antoine@ewill.fr',
+    email: 'clem@ewill.fr',
     password: 'admin'
   }
 
