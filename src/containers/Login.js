@@ -4,13 +4,11 @@ import { View } from 'react-native'
 import { connect } from 'react-redux'
 
 import LoginForm from '../components/LoginForm'
-import Banner from '../../assets/bottom-banner.jpg'
 import { login } from '../actions/login'
 
 const Login = props => (
   <View style={{ flex: 1, backgroundColor: 'white' }}>
     <LoginForm {...props} />
-    <BannerBottom source={Banner} />
   </View>
 )
 

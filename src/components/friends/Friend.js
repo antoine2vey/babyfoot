@@ -1,6 +1,12 @@
 import React from 'react'
+import { Text, View } from 'react-native'
 import { ListItem } from 'react-native-elements'
-import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
+import {
+  MaterialCommunityIcons,
+  MaterialIcons,
+  FontAwesome
+} from '@expo/vector-icons'
+import styled from 'styled-components/native'
 
 const Friend = ({
   friend,
@@ -11,54 +17,99 @@ const Friend = ({
   token,
   canAdd
 }) => (
-  <ListItem
-    title={friend.email}
-    subtitle={
-      showChoices
-        ? 'asked you in friend'
-        : canAdd ? null : 'is friend of yours!'
-    }
-    badge={
-      showChoices && {
-        element: (
-          <MaterialCommunityIcons
-            name={'check-circle'}
-            size={28}
-            color="green"
-            style={{ marginTop: 6, marginRight: 5 }}
-            onPress={() => updateFriendship('ACCEPT', friend._id, token)}
-          />
-        )
-      }
-    }
-    rightIcon={
-      showChoices ? (
-        <MaterialIcons
-          name={'cancel'}
-          size={28}
-          color="red"
-          style={{ marginTop: 6 }}
-          onPress={() => updateFriendship('DENY', friend._id, token)}
-        />
-      ) : canAdd ? (
-        <MaterialIcons
-          name={'add-circle'}
-          size={28}
-          color="green"
-          style={{ marginTop: 6 }}
-          onPress={() => addFriend(friend._id, token)}
-        />
-      ) : (
-        <MaterialIcons
-          name={'delete'}
-          size={28}
-          color="red"
-          style={{ marginTop: 6 }}
-          onPress={() => deleteFriendship(friend._id, token)}
-        />
-      )
-    }
-  />
+  <FriendItem>
+    <Avatar
+      source={{
+        uri:
+          'https://stella-avatar-team.s3.eu-west-2.amazonaws.com/1512675942652.png'
+      }}
+    />
+    <View
+      style={{
+        backgroundColor: 'white',
+        shadowColor: 'rgba(0,0,0,.5)',
+        shadowOffset: { width: 4, height: 4 },
+        shadowOpacity: 0.25,
+        shadowRadius: 8,
+        marginLeft: 25,
+        paddingLeft: 25,
+        borderRadius: 6,
+        paddingTop: 3,
+        paddingBottom: 3,
+        height: 60,
+        flex: 1,
+        justifyContent: 'center',
+        marginTop: 8,
+        marginBottom: 8
+      }}
+    >
+      <ListItem
+        title={friend.email.toUpperCase()}
+        containerStyle={{
+          borderBottomWidth: 0
+        }}
+        titleStyle={{
+          fontWeight: '600',
+          fontSize: 14,
+          color: 'black'
+        }}
+        badge={
+          showChoices && {
+            element: (
+              <MaterialCommunityIcons
+                name={'check'}
+                size={28}
+                color="limegreen"
+                style={{ marginRight: 15 }}
+                onPress={() => updateFriendship('ACCEPT', friend._id, token)}
+              />
+            )
+          }
+        }
+        rightIcon={
+          showChoices ? (
+            <MaterialCommunityIcons
+              name={'close'}
+              size={28}
+              color="#DA373A"
+              onPress={() => updateFriendship('DENY', friend._id, token)}
+            />
+          ) : canAdd ? (
+            <MaterialIcons
+              name={'add'}
+              size={28}
+              color="limegreen"
+              onPress={() => addFriend(friend._id, token)}
+            />
+          ) : (
+            <FontAwesome
+              name={'trash-o'}
+              size={20}
+              color="#DA373A"
+              onPress={() => deleteFriendship(friend._id, token)}
+            />
+          )
+        }
+      />
+    </View>
+  </FriendItem>
 )
 
 export default Friend
+
+const FriendItem = styled.View`
+  position: relative;
+  display: flex;
+  z-index: -1;
+`
+
+const Avatar = styled.Image`
+  width: 50px;
+  height: 50px;
+  border-radius: 25;
+
+  position: absolute;
+  left: 0;
+  top: 13;
+  z-index: 1;
+`
