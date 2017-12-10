@@ -12,6 +12,7 @@ const UserSchema = new mongoose.Schema({
   reset_token_expire: Date,
   tokens: [],
   fbId: String,
+  avatar: String,
   pending_invites: [
     {
       type: ObjectId,
