@@ -10,6 +10,8 @@ const friend = require('./friend')
 const updateFriendship = require('./updateFriendship')
 const single = require('./single')
 
+const { upload } = require('../../config/upload')
+
 const deleteFriendship = require('./unfriend')
 const {
   newUserRules,
@@ -24,7 +26,7 @@ const {
 router.get('/', jwt, listUsers)
 router.get('/:id', jwt, single)
 
-router.post('/', newUserRules, newUser)
+router.post('/', upload.single('avatar'), newUser)
 router.post('/login', loginUserRules, loginUser)
 router.post('/friendship/:friend_id', jwt, friend)
 

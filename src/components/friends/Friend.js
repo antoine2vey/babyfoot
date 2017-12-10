@@ -20,8 +20,7 @@ const Friend = ({
   <FriendItem>
     <Avatar
       source={{
-        uri:
-          'https://stella-avatar-team.s3.eu-west-2.amazonaws.com/1512675942652.png'
+        uri: friend.avatar
       }}
     />
     <View
@@ -44,7 +43,7 @@ const Friend = ({
       }}
     >
       <ListItem
-        title={friend.email.toUpperCase()}
+        title={`${friend.first_name.toUpperCase()} ${friend.last_name.toUpperCase()}`}
         containerStyle={{
           borderBottomWidth: 0
         }}
