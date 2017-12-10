@@ -4,6 +4,8 @@ const UPDATE_SCORE = 'UPDATE_SCORE'
 const INCREMENT_SCORE = 'INCREMENT_SCORE'
 const DECREMENT_SCORE = 'DECREMENT_SCORE'
 const JOIN_GAME = 'JOIN_GAME'
+const START_GAME = 'START_GAME'
+const END_GAME = 'END_GAME'
 const { Match } = require('../../models/match')
 
 module.exports = io => {
@@ -15,6 +17,14 @@ module.exports = io => {
     socket.on(JOIN_GAME, matchId => {
       console.log('Logged in game')
       socket.join(matchId)
+    })
+
+    socket.on(START_GAME, matchId => {
+      io.to(matchId).emit('GAME_STARTED')
+    })
+
+    socket.on(END_GAME, matchId => {
+      io.to(matchId).emit('END_GAME')
     })
 
     socket.on(INCREMENT_SCORE, async (matchId, team) => {
