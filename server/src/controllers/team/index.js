@@ -11,20 +11,22 @@ const newTeam = require('./new')
  */
 router.post('/', newTeamRule, jwt, upload.single('avatar'), newTeam)
 
-// const { validationResult } = require('express-validator/check')
-// const { Team } = require('../../models/team')
-// router.post('/join/:teamId', joinTeamRule, jwt, async (req, res) => {
-//   const { teamId } = req.params
-//   const errors = validationResult(req)
-//   if (!errors.isEmpty()) {
-//     return res.status(422).json({ errors: errors.array() })
-//   }
+const { validationResult } = require('express-validator/check')
+const { Team } = require('../../models/team')
 
-//   const team = await Team.findById(teamId)
+router.post('/join/:teamId', jwt, async (req, res) => {
+  const { teamId } = req.params
+  const { id } = req.user
+  const errors = validationResult(req)
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() })
+  }
 
-//   res.send({
-//     team
-//   })
-// })
+  const team = await Team.findByIdAndUpdate(teamId, { $push: { members: id } })
+
+  res.send({
+    team
+  })
+})
 
 module.exports = router
