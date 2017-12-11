@@ -15,7 +15,7 @@ const Game = ({ game }) => {
   return (
     <GameCard>
       <Date date={created_at} />
-      <Place />
+      <Place place={'Estiam'} />
       <GameHeader teams={teams} />
       <Teams teams={teams} />
       <Rules rules={rules} />

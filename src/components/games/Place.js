@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-const Place = ({ left }) => <PlaceTitle left={left}>Estiam</PlaceTitle>
+const Place = ({ left, place }) => <PlaceTitle left={left}>{place}</PlaceTitle>
 
 export default Place
 
