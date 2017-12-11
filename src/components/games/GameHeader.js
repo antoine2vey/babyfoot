@@ -1,37 +1,76 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, ActionSheetIOS, Alert } from 'react-native'
 import styled from 'styled-components/native'
 import { Avatar } from 'react-native-elements'
 
-const GameHeader = ({ teams: [teamA, teamB] }) => (
-  <Container>
-    <TeamContainer>
-      <TeamLogo source={{ uri: teamA.logo }} />
-      <TeamName>{teamA.name}</TeamName>
-    </TeamContainer>
-    <Score />
-    <TeamContainer>
-      {!teamB ? (
-        <View>
-          <Avatar
-            title="?"
-            rounded
-            width={70}
-            height={70}
-            activeOpacity={0.7}
-            onPress={() => console.log('Inscription')}
-          />
-          <TeamName>Inscris toi!</TeamName>
-        </View>
-      ) : (
-        <View>
-          <TeamLogo source={{ uri: teamB.logo }} />
-          <TeamName>{teamB.name}</TeamName>
-        </View>
-      )}
-    </TeamContainer>
-  </Container>
-)
+class GameHeader extends React.Component {
+  state = {
+    teams: ['EnVyUS', 'NiP', 'Méduses volante']
+  }
+
+  inscription() {
+    ActionSheetIOS.showActionSheetWithOptions(
+      {
+        options: ['Annuler', ...this.state.teams],
+        cancelButtonIndex: 0
+      },
+      index => {
+        if (index === 0) {
+          return
+        }
+
+        const selectedTeam = this.state.teams[index - 1]
+
+        Alert.alert(
+          'Inscription',
+          `Vous allez inscrire ${selectedTeam} à ce tournoi`,
+          [
+            {
+              text: 'Annuler',
+              onPress: () => console.log('Annulation inscription'),
+              style: 'cancel'
+            },
+            { text: 'Valider', onPress: () => console.log('Inscription') }
+          ]
+        )
+      }
+    )
+  }
+
+  render() {
+    const { teams: [teamA, teamB] } = this.props
+
+    return (
+      <Container>
+        <TeamContainer>
+          <TeamLogo source={{ uri: teamA.logo }} />
+          <TeamName>{teamA.name}</TeamName>
+        </TeamContainer>
+        <Score />
+        <TeamContainer>
+          {!teamB ? (
+            <View>
+              <Avatar
+                title="?"
+                rounded
+                width={70}
+                height={70}
+                activeOpacity={0.7}
+                onPress={() => this.inscription()}
+              />
+              <TeamName>Inscris toi!</TeamName>
+            </View>
+          ) : (
+            <View>
+              <TeamLogo source={{ uri: teamB.logo }} />
+              <TeamName>{teamB.name}</TeamName>
+            </View>
+          )}
+        </TeamContainer>
+      </Container>
+    )
+  }
+}
 
 export default GameHeader
 
