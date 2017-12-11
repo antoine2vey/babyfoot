@@ -2,6 +2,7 @@ import React from 'react'
 import { View, ActionSheetIOS, Alert } from 'react-native'
 import styled from 'styled-components/native'
 import { Avatar } from 'react-native-elements'
+import { NavigationActions } from 'react-navigation'
 
 class GameHeader extends React.Component {
   state = {
@@ -9,6 +10,12 @@ class GameHeader extends React.Component {
   }
 
   inscription() {
+    const navigateAction = NavigationActions.navigate({
+      routeName: 'test',
+      params: {},
+      action: NavigationActions.navigate({ routeName: 'SubProfileRoute' })
+    })
+
     ActionSheetIOS.showActionSheetWithOptions(
       {
         options: ['Annuler', ...this.state.teams],
@@ -30,7 +37,12 @@ class GameHeader extends React.Component {
               onPress: () => console.log('Annulation inscription'),
               style: 'cancel'
             },
-            { text: 'Valider', onPress: () => console.log('Inscription') }
+            {
+              text: 'Valider',
+              onPress: () => {
+                this.props.navigation.navigate('test')
+              }
+            }
           ]
         )
       }

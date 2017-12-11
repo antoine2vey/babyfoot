@@ -31,7 +31,7 @@ export default class LoginForm extends React.Component {
         const token = jwt_decode(res.token)
         const navigateAction = NavigationActions.navigate({
           routeName: 'app',
-          params: { user: token }
+          params: { user: token, navigation: this.props.navigation }
         })
 
         this.props.navigation.dispatch(navigateAction)
@@ -56,9 +56,7 @@ export default class LoginForm extends React.Component {
 
       if (type === 'success') {
         const response = await axios.get(
-          `https://graph.facebook.com/me?access_token=${
-            token
-          }&fields=email,first_name,last_name,location,friends,picture`
+          `https://graph.facebook.com/me?access_token=${token}&fields=email,first_name,last_name,location,friends,picture`
         )
 
         console.log(response.data)

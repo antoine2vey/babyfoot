@@ -4,9 +4,10 @@ import { View, Text, AppState, Image } from 'react-native'
 
 import Login from './src/containers/Login'
 import Home from './src/containers/Home'
-
 import Games from './src/containers/Games'
 import Stats from './src/containers/Stats'
+import Friends from './src/containers/Friends'
+
 import Banner from './assets/bottom-banner.jpg'
 
 import { createStore, applyMiddleware } from 'redux'
@@ -42,6 +43,7 @@ const createNav = token => {
             }
           },
           {
+            initialRouteName: 'Parties',
             swipeEnabled: true,
             tabBarPosition: 'top',
             animationEnabled: true,
@@ -64,6 +66,9 @@ const createNav = token => {
             }
           }
         )
+      },
+      test: {
+        screen: Friends
       }
     },
     {

@@ -11,7 +11,8 @@ class Games extends React.Component {
   static navigationOptions = {
     headerStyle: {
       borderBottomColor: 'white',
-      backgroundColor: 'white'
+      backgroundColor: 'white',
+      headerLeft: null
     }
   }
 
@@ -23,11 +24,13 @@ class Games extends React.Component {
   }
 
   render() {
-    const { games } = this.props
+    const { games, navigation } = this.props
 
     return (
       <ScrollView style={{ padding: 20 }}>
-        {games.map(game => <Game key={game._id} game={game} />)}
+        {games.map(game => (
+          <Game key={game._id} game={game} navigation={navigation} />
+        ))}
       </ScrollView>
     )
   }
