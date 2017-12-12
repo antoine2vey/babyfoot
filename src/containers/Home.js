@@ -8,18 +8,10 @@ import {
   fetchUsers,
   addFriend
 } from '../actions/friends'
-import { Ionicons } from '@expo/vector-icons'
 
 import FriendList from '../components/friends/FriendList'
 
 class Home extends React.Component {
-  static navigationOptions = {
-    headerStyle: {
-      borderBottomColor: 'white',
-      backgroundColor: 'white'
-    }
-  }
-
   render() {
     return (
       <View>

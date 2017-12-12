@@ -7,10 +7,11 @@ import { Text, Image, TouchableOpacity, Alert, View } from 'react-native'
 import Stella from '../../assets/stella-logo.png'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
+import { Navigation } from 'react-native-navigation'
 
 export default class LoginForm extends React.Component {
   state = {
-    email: 'clem@ewill.fr',
+    email: 'pierre@ewill.fr',
     password: 'admin'
   }
 
@@ -29,12 +30,36 @@ export default class LoginForm extends React.Component {
       .login(email, password)
       .then(res => {
         const token = jwt_decode(res.token)
-        const navigateAction = NavigationActions.navigate({
-          routeName: 'app',
-          params: { user: token }
-        })
 
-        this.props.navigation.dispatch(navigateAction)
+        Navigation.startTabBasedApp({
+          tabs: [
+            {
+              label: 'Parties',
+              screen: 'stella.Games'
+            },
+            {
+              label: 'Amis',
+              screen: 'stella.Friends'
+            },
+            {
+              label: 'Stats',
+              screen: 'stella.Stats'
+            }
+          ],
+          tabsStyle: {
+            tabBarLabelColor: 'rgba(204, 0, 0, .5)',
+            tabBarSelectedLabelColor: 'rgb(204, 0, 0)',
+            tabBarBackgroundColor: 'white',
+            initialTabIndex: 1
+          },
+          appStyle: {
+            orientation: 'portrait'
+          },
+          passProps: {
+            user: token
+          },
+          animationType: 'fade'
+        })
       })
       .catch(err => {
         console.log('Error at login', err)
@@ -56,9 +81,7 @@ export default class LoginForm extends React.Component {
 
       if (type === 'success') {
         const response = await axios.get(
-          `https://graph.facebook.com/me?access_token=${
-            token
-          }&fields=email,first_name,last_name,location,friends,picture`
+          `https://graph.facebook.com/me?access_token=${token}&fields=email,first_name,last_name,location,friends,picture`
         )
 
         console.log(response.data)

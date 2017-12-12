@@ -1,12 +1,8 @@
 import React from 'react'
-import { StackNavigator, TabNavigator } from 'react-navigation'
+import { Navigation } from 'react-native-navigation'
+import { registerScreens } from './screens'
 import { View, Text, AppState, Image } from 'react-native'
 
-import Login from './src/containers/Login'
-import Home from './src/containers/Home'
-
-import Games from './src/containers/Games'
-import Stats from './src/containers/Stats'
 import Banner from './assets/bottom-banner.jpg'
 
 import { createStore, applyMiddleware } from 'redux'
@@ -24,80 +20,22 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 const store = createStore(rootReducer, applyMiddleware(...middleware))
-const createNav = token => {
-  return StackNavigator(
-    {
-      login: { screen: Login },
-      app: {
-        screen: TabNavigator(
-          {
-            Parties: {
-              screen: Games
-            },
-            Amis: {
-              screen: Home
-            },
-            Stats: {
-              screen: Stats
-            }
-          },
-          {
-            swipeEnabled: true,
-            tabBarPosition: 'top',
-            animationEnabled: true,
-            tabBarOptions: {
-              activeTintColor: 'rgba(202,0,0,1)',
-              inactiveTintColor: 'rgba(202,0,0,.2)',
-              labelStyle: {
-                fontSize: 16,
-                fontWeight: '600',
-                marginBottom: 15
-              },
-              style: {
-                shadowColor: 'rgba(0,0,0,.5)',
-                shadowOffset: { width: 4, height: 4 },
-                shadowOpacity: 0.25,
-                shadowRadius: 8,
-                borderTopWidth: 0,
-                backgroundColor: 'white'
-              }
-            }
-          }
-        )
+
+registerScreens(store, Provider)
+
+Navigation.startSingleScreenApp({
+  screen: {
+    screen: 'stella.Login',
+    title: 'Connexion',
+    topTabs: [
+      {
+        screen: 'stella.Foo',
+        title: 'foo'
+      },
+      {
+        screen: 'stella.Friends',
+        title: 'friends'
       }
-    },
-    {
-      initialRouteName: !token ? 'login' : 'app',
-      headerMode: 'screen',
-      cardStyle: {
-        backgroundColor: 'white'
-      }
-    }
-  )
-}
-
-class Main extends React.Component {
-  render() {
-    const { token } = store.getState().login
-    const Nav = createNav(token)
-
-    return (
-      <View style={{ flex: 1 }}>
-        <Nav />
-        <Image source={Banner} style={{ width: '100%' }} />
-      </View>
-    )
+    ]
   }
-}
-
-class App extends React.Component {
-  render() {
-    return (
-      <Provider store={store}>
-        <Main />
-      </Provider>
-    )
-  }
-}
-
-export default App
+})

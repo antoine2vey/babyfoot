@@ -1,11 +1,9 @@
 import React from 'react'
 import { Text, View } from 'react-native'
 import { ListItem } from 'react-native-elements'
-import {
-  MaterialCommunityIcons,
-  MaterialIcons,
-  FontAwesome
-} from '@expo/vector-icons'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import styled from 'styled-components/native'
 
 const Friend = ({
