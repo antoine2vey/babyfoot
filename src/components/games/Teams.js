@@ -13,6 +13,17 @@ const Teams = ({ teams: [teamA, teamB] }) => (
         </TeamMember>
       ))}
     </Team>
+    <Team>
+      {teamB &&
+        teamB.members.map(member => (
+          <TeamMember key={member._id}>
+            <MemberAvatar source={{ uri: member.avatar }} />
+            <TeamMemberName>
+              {member.first_name} {member.last_name}
+            </TeamMemberName>
+          </TeamMember>
+        ))}
+    </Team>
   </Container>
 )
 
@@ -27,6 +38,8 @@ const Container = styled.View`
 const Team = styled.View`
   flex: 1;
   padding-right: 10px;
+  max-width: 50%;
+  flex-basis: 50%;
 `
 
 const TeamMember = styled.View`

@@ -4,15 +4,14 @@ import { ScrollView } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/fr'
 
-import { fetchGames } from '../actions/games'
+import { fetchGames, fetchTeams, joinGame } from '../actions/games'
 import Game from '../components/games/Game'
 
 class Games extends React.Component {
   static navigationOptions = {
     headerStyle: {
       borderBottomColor: 'white',
-      backgroundColor: 'white',
-      headerLeft: null
+      backgroundColor: 'white'
     }
   }
 
@@ -21,16 +20,15 @@ class Games extends React.Component {
     const { token } = this.props
 
     this.props.fetchGames(token)
+    this.props.fetchTeams(token)
   }
 
   render() {
-    const { games, navigation } = this.props
-
+    const { games, navigator, user_teams } = this.props
+    console.log(this.props)
     return (
       <ScrollView style={{ padding: 20 }}>
-        {games.map(game => (
-          <Game key={game._id} game={game} navigation={navigation} />
-        ))}
+        {games.map(game => <Game key={game._id} game={game} {...this.props} />)}
       </ScrollView>
     )
   }
@@ -38,7 +36,10 @@ class Games extends React.Component {
 
 const mapStateToProps = state => ({
   games: state.games.games,
-  token: state.login.token
+  token: state.login.token,
+  user_teams: state.games.userTeams
 })
 
-export default connect(mapStateToProps, { fetchGames })(Games)
+export default connect(mapStateToProps, { fetchGames, fetchTeams, joinGame })(
+  Games
+)

@@ -1,13 +1,16 @@
 import {
   FETCH_GAMES_FAILURE,
   FETCH_GAMES_SUCCESS,
-  FETCH_GAMES_START
+  FETCH_GAMES_START,
+  FETCH_TEAMS_SUCCESS,
+  JOINED_GAME_SUCCESS
 } from '../actionTypes'
 
 const initialState = {
   isFetching: false,
   errors: [],
-  games: []
+  games: [],
+  userTeams: []
 }
 
 const games = (state = initialState, action) => {
@@ -29,6 +32,27 @@ const games = (state = initialState, action) => {
         ...state,
         isFetching: false,
         errors: action.errors
+      }
+    }
+    case FETCH_TEAMS_SUCCESS: {
+      return {
+        ...state,
+        userTeams: action.teams
+      }
+    }
+    case JOINED_GAME_SUCCESS: {
+      return {
+        ...state,
+        games: state.games.map(game => {
+          if (game._id !== action.gameId) {
+            return game
+          }
+
+          return {
+            ...game,
+            teams: [...game.teams, action.team]
+          }
+        })
       }
     }
     default:

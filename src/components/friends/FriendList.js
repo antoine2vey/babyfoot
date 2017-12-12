@@ -6,9 +6,9 @@ import Friend from './Friend'
 
 export default class FriendList extends React.Component {
   componentDidMount() {
-    const { id } = this.props.navigation.state.params.user
-    this.props.fetchFriends(id, this.props.token)
-    this.props.fetchUsers(this.props.token)
+    const { token, fetchFriends, fetchUsers, user } = this.props
+    fetchFriends(user.id, token)
+    fetchUsers(token)
   }
 
   render() {

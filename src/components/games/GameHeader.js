@@ -1,24 +1,15 @@
 import React from 'react'
-import { View, ActionSheetIOS, Alert } from 'react-native'
+import { View, ActionSheetIOS, Alert, Text } from 'react-native'
 import styled from 'styled-components/native'
 import { Avatar } from 'react-native-elements'
 import { NavigationActions } from 'react-navigation'
 
 class GameHeader extends React.Component {
-  state = {
-    teams: ['EnVyUS', 'NiP', 'Méduses volante']
-  }
-
   inscription() {
-    const navigateAction = NavigationActions.navigate({
-      routeName: 'test',
-      params: {},
-      action: NavigationActions.navigate({ routeName: 'SubProfileRoute' })
-    })
-
+    const teamToString = this.props.user_teams.map(t => t.name)
     ActionSheetIOS.showActionSheetWithOptions(
       {
-        options: ['Annuler', ...this.state.teams],
+        options: ['Annuler', ...teamToString],
         cancelButtonIndex: 0
       },
       index => {
@@ -26,11 +17,11 @@ class GameHeader extends React.Component {
           return
         }
 
-        const selectedTeam = this.state.teams[index - 1]
+        const selectedTeam = this.props.user_teams[index - 1]
 
         Alert.alert(
           'Inscription',
-          `Vous allez inscrire ${selectedTeam} à ce tournoi`,
+          `Vous allez inscrire ${selectedTeam.name} à ce tournoi`,
           [
             {
               text: 'Annuler',
@@ -40,7 +31,8 @@ class GameHeader extends React.Component {
             {
               text: 'Valider',
               onPress: () => {
-                this.props.navigation.navigate('test')
+                const { game, token } = this.props
+                this.props.joinGame(game._id, selectedTeam, token)
               }
             }
           ]
@@ -58,7 +50,9 @@ class GameHeader extends React.Component {
           <TeamLogo source={{ uri: teamA.logo }} />
           <TeamName>{teamA.name}</TeamName>
         </TeamContainer>
-        <Score />
+        <Score>
+          <Text style={{ fontWeight: '600', fontSize: 22 }}>VS</Text>
+        </Score>
         <TeamContainer>
           {!teamB ? (
             <View>
@@ -88,6 +82,8 @@ export default GameHeader
 
 const Score = styled.View`
   flex: 1;
+  align-items: center;
+  justify-content: center;
 `
 
 const Container = styled.View`

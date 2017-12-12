@@ -29,4 +29,11 @@ router.post('/join/:teamId', jwt, async (req, res) => {
   })
 })
 
+router.get('/', jwt, async (req, res) => {
+  const { id } = req.user
+  const teams = await Team.find({ members: { $in: [id] } }).populate('members')
+
+  res.send({ teams })
+})
+
 module.exports = router

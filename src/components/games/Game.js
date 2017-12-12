@@ -9,14 +9,14 @@ import Teams from './Teams'
 import Rules from './Rules'
 import Medias from './Medias'
 
-const Game = ({ game, navigation }) => {
-  const { teams, created_at, rules, medias } = game
+const Game = props => {
+  const { teams, created_at, rules, medias } = props.game
 
   return (
     <GameCard>
       <Date date={created_at} />
       <Place place={'Estiam'} />
-      <GameHeader teams={teams} navigation={navigation} />
+      <GameHeader {...props.game} {...props} />
       <Teams teams={teams} />
       <Rules rules={rules} />
       <Medias medias={medias} />
