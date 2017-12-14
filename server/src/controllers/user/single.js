@@ -6,10 +6,10 @@ const { User } = require('../../models/user')
  * @param {*} res
  */
 module.exports = async (req, res) => {
-  const { id } = req.params
+  const { id } = req.user
   const user = await User.findById(id)
-    .populate('friends', 'email')
-    .populate('pending_invites', 'email')
+    .populate('friends', '-password')
+    .populate('pending_invites', '-password')
     .select('first_name last_name phone email friends pending_invites')
 
   return res.status(200).send({ user })

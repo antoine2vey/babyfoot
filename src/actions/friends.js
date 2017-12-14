@@ -38,11 +38,11 @@ export const friendUserSuccess = id => ({
   id
 })
 
-export const fetchFriends = (userId, token) => dispatch => {
+export const fetchFriends = token => dispatch => {
   dispatch(friendsFetchStart())
 
   axios
-    .get(`${CONSTANTS.API_URL}/user/${userId}`, {
+    .get(`${CONSTANTS.API_URL}/user/friends`, {
       headers: {
         Authorization: `Bearer ${token}`
       }

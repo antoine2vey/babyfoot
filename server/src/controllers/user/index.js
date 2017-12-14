@@ -24,7 +24,7 @@ const {
  * All user possible routes
  */
 router.get('/', jwt, listUsers)
-router.get('/:id', jwt, single)
+router.get('/friends', jwt, single)
 
 router.post('/', upload.single('avatar'), newUser)
 router.post('/login', loginUserRules, loginUser)
