@@ -41,6 +41,7 @@
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "reduxify": "^1.0.3",
+    "socket.io": "^2.0.4",
     "styled-components": "^2.2.3"
   }
 }

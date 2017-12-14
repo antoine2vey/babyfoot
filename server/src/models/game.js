@@ -30,7 +30,11 @@ const GameSchema = new mongoose.Schema({
       type: ObjectId,
       ref: 'User'
     }
-  ]
+  ],
+  status: {
+    type: String,
+    default: 'WAITING'
+  }
 })
 
 module.exports = {

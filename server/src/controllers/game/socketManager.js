@@ -15,11 +15,18 @@ module.exports = io => {
      * socket rooms are created based on the current game room|match id
      */
     socket.on(JOIN_GAME, matchId => {
-      console.log('Logged in game')
+      console.log('user joined', matchId)
       socket.join(matchId)
     })
 
     socket.on(START_GAME, matchId => {
+      /**
+       * TODO:
+       * - Control if user is master
+       * - Update gameId status to 'PLAYING'
+       * - See UI to create a match
+       */
+
       io.to(matchId).emit('GAME_STARTED')
     })
 

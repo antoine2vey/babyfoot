@@ -1,5 +1,4 @@
 import React from 'react'
-import { View } from 'react-native'
 import styled from 'styled-components/native'
 
 import Date from './Date'
@@ -8,6 +7,7 @@ import GameHeader from './GameHeader'
 import Teams from './Teams'
 import Rules from './Rules'
 import Medias from './Medias'
+import { TouchableOpacity, Text } from 'react-native'
 
 const Game = props => {
   const { teams, created_at, rules, medias } = props.game
@@ -20,6 +20,9 @@ const Game = props => {
       <Teams teams={teams} />
       <Rules rules={rules} />
       <Medias medias={medias} />
+      <TouchableOpacity onPress={props.joinMatch}>
+        <Text>Join this match</Text>
+      </TouchableOpacity>
     </GameCard>
   )
 }
