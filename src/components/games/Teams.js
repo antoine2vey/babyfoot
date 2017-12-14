@@ -13,7 +13,7 @@ const Teams = ({ teams: [teamA, teamB] }) => (
         </TeamMember>
       ))}
     </Team>
-    <Team>
+    <Team last>
       {teamB &&
         teamB.members.map(member => (
           <TeamMember key={member._id}>
@@ -37,9 +37,18 @@ const Container = styled.View`
 
 const Team = styled.View`
   flex: 1;
-  padding-right: 10px;
   max-width: 50%;
   flex-basis: 50%;
+  padding: 0 70px 0 0;
+
+  ${props =>
+    props.last &&
+    `
+    border-left-color: rgba(0,0,0, 0.1)
+    border-left-width: 1px
+    border-style: solid
+    padding-left: 15px;
+  `};
 `
 
 const TeamMember = styled.View`

@@ -6,8 +6,8 @@ import Friend from './Friend'
 
 export default class FriendList extends React.Component {
   componentDidMount() {
-    const { token, fetchFriends, fetchUsers, user } = this.props
-    fetchFriends(user.id, token)
+    const { token, fetchFriends, fetchUsers } = this.props
+    fetchFriends(token)
     fetchUsers(token)
   }
 

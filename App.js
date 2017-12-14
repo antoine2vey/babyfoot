@@ -26,16 +26,6 @@ registerScreens(store, Provider)
 Navigation.startSingleScreenApp({
   screen: {
     screen: 'stella.Login',
-    title: 'Connexion',
-    topTabs: [
-      {
-        screen: 'stella.Foo',
-        title: 'foo'
-      },
-      {
-        screen: 'stella.Friends',
-        title: 'friends'
-      }
-    ]
+    title: 'Connexion'
   }
 })

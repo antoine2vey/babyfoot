@@ -13,11 +13,7 @@ import FriendList from '../components/friends/FriendList'
 
 class Home extends React.Component {
   render() {
-    return (
-      <View>
-        <FriendList {...this.props} />
-      </View>
-    )
+    return <FriendList {...this.props} />
   }
 }
 
