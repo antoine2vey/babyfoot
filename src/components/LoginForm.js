@@ -8,6 +8,7 @@ import Stella from '../../assets/stella-logo.png'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import { Navigation } from 'react-native-navigation'
+import { createMainApp } from '../../screens'
 
 export default class LoginForm extends React.Component {
   state = {
@@ -31,57 +32,8 @@ export default class LoginForm extends React.Component {
       .then(res => {
         const token = jwt_decode(res.token)
 
-        Navigation.startTabBasedApp({
-          tabs: [
-            {
-              label: 'Parties',
-              screen: 'stella.Games',
-              title: 'Parties'
-            },
-            {
-              label: 'Amis',
-              screen: 'stella.Friends',
-              title: 'Amis'
-            },
-            {
-              label: 'Stats',
-              screen: 'stella.Stats',
-              title: 'Stats'
-            }
-          ],
-          drawer: {
-            // optional, add this if you want a side menu drawer in your app
-            left: {
-              // optional, define if you want a drawer from the left
-              screen: 'stella.Foo', // unique ID registered with Navigation.registerScreen
-              passProps: {} // simple serializable object that will pass as props to all top screens (optional)
-            },
-            style: {
-              // ( iOS only )
-              drawerShadow: false, // optional, add this if you want a side menu drawer shadow
-              contentOverlayColor: 'rgba(0,0,0,0.2)',
-              leftDrawerWidth: 80, // optional, add this if you want a define left drawer width (50=percent)
-              shouldStretchDrawer: true // optional, iOS only with 'MMDrawer' type, whether or not the panning gesture will “hard-stop” at the maximum width for a given drawer side, default : true
-            },
-            type: 'MMDrawer', // optional, iOS only, types: 'TheSideBar', 'MMDrawer' default: 'MMDrawer'
-            animationType: 'parallax', //optional, iOS only, for MMDrawer: 'door', 'parallax', 'slide', 'slide-and-scale'
-            // for TheSideBar: 'airbnb', 'facebook', 'luvocracy','wunder-list'
-            disableOpenGesture: false // optional, can the drawer be opened with a swipe instead of button
-          },
-          tabsStyle: {
-            tabBarLabelColor: 'rgba(204, 0, 0, .5)',
-            tabBarSelectedLabelColor: 'rgb(204, 0, 0)',
-            tabBarBackgroundColor: 'white',
-            initialTabIndex: 1
-          },
-          appStyle: {
-            orientation: 'portrait'
-          },
-          passProps: {
-            user: token
-          },
-          animationType: 'fade'
-        })
+        // Boot main application here
+        createMainApp({ user: token })
       })
       .catch(err => {
         console.log('Error at login', err)
@@ -106,7 +58,7 @@ export default class LoginForm extends React.Component {
           `https://graph.facebook.com/me?access_token=${token}&fields=email,first_name,last_name,location,friends,picture`
         )
 
-        console.log(response.data)
+        console.log(response)
       }
     } catch (e) {
       console.error(e)

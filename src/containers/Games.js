@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { ScrollView, AlertIOS } from 'react-native'
+import { ScrollView, AlertIOS, StyleSheet, View } from 'react-native'
 import moment from 'moment'
 import 'moment/locale/fr'
+
+import ActionButton from 'react-native-action-button'
+import Icon from 'react-native-vector-icons/Ionicons'
 
 import { fetchGames, fetchTeams, joinGame } from '../actions/games'
 import Game from '../components/games/Game'
@@ -12,6 +15,7 @@ class Games extends React.Component {
     super(props)
     // if you want to listen on navigator events, set this up
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent.bind(this))
+    this.red = 'rgba(203, 70, 70, 1)'
   }
 
   static navigatorButtons = {
@@ -54,23 +58,52 @@ class Games extends React.Component {
     })
   }
 
+  createMatch() {
+    const { token, navigator } = this.props
+
+    navigator.push({
+      screen: 'stella.CreateGame',
+      title: 'Créer une partie',
+      passProps: { token }
+    })
+  }
+
   render() {
     const { games } = this.props
 
     return (
-      <ScrollView style={{ padding: 20 }}>
-        {games.map(game => (
-          <Game
-            key={game._id}
-            game={game}
-            joinMatch={() => this.joinMatch(game._id)}
-            {...this.props}
-          />
-        ))}
-      </ScrollView>
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ padding: 20 }}>
+          {games.map(game => (
+            <Game
+              key={game._id}
+              game={game}
+              joinMatch={() => this.joinMatch(game._id)}
+              {...this.props}
+            />
+          ))}
+        </ScrollView>
+        <ActionButton buttonColor="rgba(203, 70, 70, 1)" spacing={10}>
+          <ActionButton.Item
+            buttonColor="rgba(203, 70, 70, 1)"
+            onPress={() => this.createMatch()}
+            size={40}
+          >
+            <Icon name="md-create" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+        </ActionButton>
+      </View>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  actionButtonIcon: {
+    fontSize: 14,
+    height: 16,
+    color: 'white'
+  }
+})
 
 const mapStateToProps = state => ({
   games: state.games.games,

@@ -39,4 +39,17 @@ router.post('/', newRule, jwt, async (req, res) => {
   })
 })
 
+router.get('/', jwt, async (req, res) => {
+  try {
+    const rules = await Rule.find({})
+
+    return res.status(200).send({ rules })
+  } catch (e) {
+    return res.status(500).send({
+      message: 'Erreur serveur, réessayez plus tard!',
+      stack: e.stack
+    })
+  }
+})
+
 module.exports = router

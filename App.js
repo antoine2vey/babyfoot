@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Navigation } from 'react-native-navigation'
 import { registerScreens } from './screens'
 import { View, Text, AppState, Image } from 'react-native'
@@ -10,6 +10,7 @@ import { Provider } from 'react-redux'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './src/reducers'
+import { iconsLoaded } from './src/utils/icons'
 
 /**
  * Redux
@@ -23,9 +24,23 @@ const store = createStore(rootReducer, applyMiddleware(...middleware))
 
 registerScreens(store, Provider)
 
-Navigation.startSingleScreenApp({
-  screen: {
-    screen: 'stella.Login',
-    title: 'Connexion'
+class App extends Component {
+  constructor(props) {
+    super(props)
+
+    iconsLoaded.then(() => {
+      this.startApp()
+    })
   }
-})
+
+  startApp() {
+    Navigation.startSingleScreenApp({
+      screen: {
+        screen: 'stella.Login',
+        title: 'Connexion'
+      }
+    })
+  }
+}
+
+export default App
