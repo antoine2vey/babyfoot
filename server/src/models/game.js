@@ -31,6 +31,11 @@ const GameSchema = new mongoose.Schema({
       ref: 'User'
     }
   ],
+  location: {
+    name: String,
+    lat: Number,
+    lng: Number
+  },
   status: {
     type: String,
     default: 'WAITING'

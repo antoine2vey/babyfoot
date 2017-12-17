@@ -86,10 +86,17 @@ class Games extends React.Component {
         <ActionButton buttonColor="rgba(203, 70, 70, 1)" spacing={10}>
           <ActionButton.Item
             buttonColor="rgba(203, 70, 70, 1)"
+            onPress={() => {}}
+            size={40}
+          >
+            <Icon name="ios-people" style={styles.actionButtonIcon} />
+          </ActionButton.Item>
+          <ActionButton.Item
+            buttonColor="rgba(203, 70, 70, 1)"
             onPress={() => this.createMatch()}
             size={40}
           >
-            <Icon name="md-create" style={styles.actionButtonIcon} />
+            <Icon name="ios-create" style={styles.actionButtonIcon} />
           </ActionButton.Item>
         </ActionButton>
       </View>
@@ -99,8 +106,8 @@ class Games extends React.Component {
 
 const styles = StyleSheet.create({
   actionButtonIcon: {
-    fontSize: 14,
-    height: 16,
+    fontSize: 20,
+    height: 22,
     color: 'white'
   }
 })

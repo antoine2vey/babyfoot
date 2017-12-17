@@ -5,6 +5,10 @@ const RuleSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  icon: {
+    type: String,
+    required: true
+  },
   penalty_out_of_bounds: Boolean,
   max_points: Number,
   max_pissette: Number,
