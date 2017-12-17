@@ -1,7 +1,7 @@
 const { body, param } = require('express-validator/check')
 
 const newGameRules = [
-  body('teams')
+  body('team')
     .exists()
     .isMongoId(),
   body('rules').exists()

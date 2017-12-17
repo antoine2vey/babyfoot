@@ -2,7 +2,6 @@ import React from 'react'
 import { View, ActionSheetIOS, Alert, Text } from 'react-native'
 import styled from 'styled-components/native'
 import { Avatar } from 'react-native-elements'
-import { NavigationActions } from 'react-navigation'
 
 class GameHeader extends React.Component {
   inscription() {

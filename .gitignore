@@ -56,5 +56,6 @@ fastlane/screenshots
 # DEV
 
 .env
+.env.production
 yarn-error.log
 .vscode
