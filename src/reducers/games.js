@@ -3,7 +3,8 @@ import {
   FETCH_GAMES_SUCCESS,
   FETCH_GAMES_START,
   FETCH_TEAMS_SUCCESS,
-  JOINED_GAME_SUCCESS
+  JOINED_GAME_SUCCESS,
+  CREATE_GAME_SUCCESS
 } from '../actionTypes'
 
 const initialState = {
@@ -53,6 +54,12 @@ const games = (state = initialState, action) => {
             teams: [...game.teams, action.team]
           }
         })
+      }
+    }
+    case CREATE_GAME_SUCCESS: {
+      return {
+        ...state,
+        games: [...state.games, action.game]
       }
     }
     default:

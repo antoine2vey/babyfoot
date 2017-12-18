@@ -13,10 +13,10 @@ module.exports = async (req, res) => {
     return res.status(422).json({ errors: errors.array() })
   }
 
-  const { team, rules, place } = req.body
+  const { team, rules, location } = req.body
   const key = 'AIzaSyDEa5_d3q2c0E6lr3YFlFWro0A0pntLkt4'
   const resultCall = await axios.get(
-    `https://maps.googleapis.com/maps/api/geocode/json?address=${place}&key=${key}`
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${location}&key=${key}`
   )
   const result = resultCall.data.results[0]
   const latLng = result.geometry.location
@@ -43,13 +43,25 @@ module.exports = async (req, res) => {
     rules
   })
 
-  game.save(err => {
+  game.save(async err => {
     if (err) {
       return res.status(400).send({
         message: 'Server error at game creation' + err
       })
     }
 
-    return res.status(200).send(game)
+    const sendGame = await Game.findById(game.id)
+      .populate('rules', 'title')
+      .populate({
+        path: 'teams',
+        ref: 'Team',
+        populate: {
+          path: 'members',
+          ref: 'User'
+        }
+      })
+      .populate('matches')
+
+    return res.status(200).send({ game: sendGame })
   })
 }

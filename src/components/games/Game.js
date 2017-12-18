@@ -10,12 +10,12 @@ import Medias from './Medias'
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native'
 
 const Game = props => {
-  const { teams, created_at, rules, medias } = props.game
+  const { teams, created_at, rules, medias, location } = props.game
 
   return (
     <GameCard>
       <Date date={created_at} />
-      <Place place={'Estiam'} />
+      <Place place={location} />
       <GameHeader {...props.game} {...props} />
       <View>
         <Teams teams={teams} />

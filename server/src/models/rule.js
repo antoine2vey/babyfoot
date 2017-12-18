@@ -13,9 +13,12 @@ const RuleSchema = new mongoose.Schema({
   max_points: Number,
   max_pissette: Number,
   max_reprise: Boolean,
+  can_pissette: Boolean,
   can_gamelle: Boolean,
   can_casquette: Boolean,
-  can_rateau: Boolean
+  can_rateau: Boolean,
+  can_demi: Boolean,
+  can_loeb: Boolean
 })
 
 module.exports = {

@@ -27,6 +27,11 @@ export const joinGameSuccess = ({ team, gameId }) => ({
   gameId
 })
 
+export const createGameSuccess = ({ game }) => ({
+  type: ACTIONS.CREATE_GAME_SUCCESS,
+  game
+})
+
 export const fetchGames = token => dispatch => {
   dispatch(fetchGamesStart())
 
@@ -89,4 +94,24 @@ export const joinGame = (gameId, team, token) => dispatch => {
     .catch(err => {
       console.log(err)
     })
+}
+
+export const createGame = (data, token) => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios
+      .post(`${CONSTANTS.API_URL}/game`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      .then(res => {
+        dispatch(createGameSuccess({ game: res.data.game }))
+
+        resolve(true)
+      })
+      .catch(err => {
+        console.log(err)
+        reject(false)
+      })
+  })
 }

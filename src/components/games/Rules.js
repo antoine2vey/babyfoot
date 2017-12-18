@@ -4,7 +4,14 @@ import styled from 'styled-components/native'
 const Rules = ({ rules }) => (
   <Container>
     <PlaceTitle left>Règles</PlaceTitle>
-    {rules.map(rule => <Rule key={rule._id}>{rule.title}</Rule>)}
+    <PlaceContainer>
+      {rules.map((rule, i) => (
+        <Rule key={rule._id}>
+          {rule.title}
+          {i === rules.length - 1 ? '' : ', '}
+        </Rule>
+      ))}
+    </PlaceContainer>
   </Container>
 )
 
@@ -15,6 +22,10 @@ const Container = styled.View`
 `
 
 const Rule = styled.Text``
+
+const PlaceContainer = styled.View`
+  flex-direction: row;
+`
 
 const PlaceTitle = styled.Text`
   color: rgba(0, 0, 0, 0.2);
